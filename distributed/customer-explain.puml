@@ -1,0 +1,61 @@
+@startuml
+scale 600 width
+skinparam backgroundColor LightYellow
+skinparam state {
+StartColor MediumBlue
+EndColor Red
+BackgroundColor Peru BackgroundColor<<Warning>> Olive BorderColor Gray
+FontName Impact
+}
+[*] -> 电商平台 : "1，选择商品\n下订单，使用积分"
+电商平台-> [*] : "6,显示购物结果"
+state 电商平台{
+state "网关" as 1
+---
+state "账户\n（个人账户)\n(商户账户）" as 2
+state "订单" as 3
+---
+state "商品" as 4
+state "库存" as 5
+---
+state "积分/红包" as 6
+state "优惠券" as 7
+---
+state "物流" as 8
+state "..." as 9
+}
+电商平台 -> 支付平台:"2,请求支付平台\n创建支付订单"
+支付平台 -> 电商平台:"5,返回支付结果\n（成功/失败）"
+state 支付平台 {
+state "网关" as 11
+---
+state "账户\n（个人账户)\n(商户账户）" as 12
+state "支付订单" as 13
+---
+state "积分/红包" as 14
+state "会计" as 15
+---
+state "对账/结算" as 16
+state "风控" as 17
+---
+state "通知\n(实时/异步)" as 18
+state "..." as 19
+}
+支付平台 -> 银行:"3,请求银行\n创建支付交易并扣款"
+银行 -> 支付平台:"4,返回扣款结果\n（成功/失败）"
+state 银行 {
+state "网关" as 21
+---
+state "账户" as 22
+state "交易" as 23
+---
+state "积分" as 24
+state "风控" as 25
+---
+state "通知（实时/异步）" as 26
+state "对账/结算" as 27
+---
+state "..." as 28
+}
+
+@enduml
